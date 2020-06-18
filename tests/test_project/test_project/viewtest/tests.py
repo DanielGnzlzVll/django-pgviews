@@ -20,6 +20,15 @@ def create_test_schema(sender, app_config, **kwargs):
         cursor.execute(command)
 
 
+class ProjectionTestCase(TestCase):
+    """test projection fields
+    """
+
+    def projection_import_all_fields(self):
+        auth_field_names = set(field.name for field in auth.models.User._meta.fields)
+        view_field_names = set(field.name for field in models.Superusers._meta.fields)
+        self.assertEqual(auth_field_names, view_field_names)
+
 class ViewTestCase(TestCase):
     """Run the tests to ensure the post_migrate hooks were called.
     """
